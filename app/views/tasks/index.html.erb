@@ -1,0 +1,44 @@
+
+<h1>todos</h1>
+
+<main>
+
+    <%= form_for :task, url: tasks_path do |f| %>
+        <div>
+            <%= f.hidden_field :status, value: "active" %>
+            <%= f.text_field :title, placeholder: "What needs to be done?" %>
+        </div>
+    <% end %>
+
+    <ul>
+        <% @tasks.each do |t| %>
+            <li>
+                <div class="fixed_col">
+                    <% if t.status == "active" %>
+                    <div class="status">
+                        <%= link_to "", task_path(t, "task[status]" => "complete"), :method => :put %>
+                    </div>
+                    <% else %>
+                    <div class="status complete">
+                        <%= link_to "", task_path(t, "task[status]" => "active"), :method => :put %>
+                    </div>
+                    <% end %>
+                </div>
+                <div class="auto_col">
+                    <% if t.status == "active" %>
+                    <div class="title"><%= t.title %></div>
+                    <% else %>
+                    <div class="title complete"><%= t.title %></div>
+                    <% end %>
+                </div>
+                <div class="fixed_col">
+                    <div class="delete"><%= link_to "✕", task_path(t), method: :delete %></div>
+                </div>
+            </li>
+        <% end %>
+        <footer>
+            <%= @incomplete %> items left
+        </footer>
+    </ul>
+
+</main>
